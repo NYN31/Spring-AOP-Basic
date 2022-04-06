@@ -22,23 +22,12 @@ public class UserController {
     }
 
     @GetMapping("/user/{id}")
-    public ResponseEntity<UserDto> getUserById(@PathVariable Long id) {
-        //return ResponseEntity.ok(userService.getUserById(id));
-        try{
-            UserDto userDto = userService.getUserById(id);
-            return ResponseEntity
-                    .ok()
-                    .header("Messagge", "User Found")
-                    .body(userDto);
-        } catch(NullPointerException e) {
-            return ResponseEntity.internalServerError()
-                    .header("Message", "Internal server error!!")
-                    .build();
-        }catch (Exception e){
-            return ResponseEntity
-                    .status(HttpStatus.NOT_FOUND)
-                    .header("message", e.getMessage())
-                    .build();
-        }
+    public ResponseEntity<UserDto> getUserById(@PathVariable Long id) throws Exception {
+        return ResponseEntity.ok(userService.getUserById(id));
+    }
+
+    @GetMapping("/user/test")
+    public ResponseEntity<?> testException() {
+        throw new RuntimeException("Runtime exception occur in test method");
     }
 }

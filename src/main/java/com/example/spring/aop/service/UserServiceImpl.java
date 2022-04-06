@@ -25,12 +25,12 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public UserDto getUserById(Long id) throws Exception {
+    public UserDto getUserById(Long id) throws RuntimeException {
         for(UserDto userDto : userList) {
             if(userDto.getId() == id) {
                 return userDto;
             }
         }
-        throw new Exception("User not found");
+        throw new RuntimeException("User not found by " + id);
     }
 }
