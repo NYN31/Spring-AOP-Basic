@@ -2,6 +2,8 @@ package com.example.spring.aop.service;
 
 import com.example.spring.aop.dto.ResultResponse;
 import com.example.spring.aop.dto.UserDto;
+import com.example.spring.aop.exception.InvalidArgumentException;
+import com.example.spring.aop.exception.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,12 +27,15 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public UserDto getUserById(Long id) throws RuntimeException {
+    public UserDto getUserById(Long id) {
+        if(id < 1) {
+            throw new InvalidArgumentException("The Id " + id + " is Invalid");
+        }
         for(UserDto userDto : userList) {
             if(userDto.getId() == id) {
                 return userDto;
             }
         }
-        throw new RuntimeException("User not found by " + id);
+        throw new NotFoundException("User not found by " + id);
     }
 }
